@@ -3,33 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>複雑な計算ツール</title>
+    <title>計算ツール</title>
 </head>
 <body>
     <h1>計算ツール</h1>
 
     <label for="a0">a0:</label>
-    <input type="number" id="a0" required>
+    <input type="number" id="a0">
     <br><br>
 
     <label for="a1">a1:</label>
-    <input type="number" id="a1" required>
+    <input type="number" id="a1">
     <br><br>
 
     <label for="a2">a2:</label>
-    <input type="number" id="a2" required>
+    <input type="number" id="a2">
     <br><br>
 
     <label for="a3">a3:</label>
-    <input type="number" id="a3" required>
+    <input type="number" id="a3">
     <br><br>
 
     <label for="a4">a4:</label>
-    <input type="number" id="a4" required>
+    <input type="number" id="a4">
     <br><br>
 
     <button onclick="performCalculation()">計算</button>
-    <h2>結果: <span id="result"></span></h2>
+    <h2>結果:</h2>
+    <div id="result"></div>
 
     <script>
         // math.ceilの代わりにMath.ceilを使用
@@ -75,31 +76,51 @@
             }
         }
 
-        // 入力された値を元に計算を行い、結果を表示
+        // 入力値を元に計算を行い、結果を表示
         function performCalculation() {
             // 入力値を取得
-            let a0 = parseInt(document.getElementById('a0').value);
-            let a1 = parseInt(document.getElementById('a1').value);
-            let a2 = parseInt(document.getElementById('a2').value);
-            let a3 = parseInt(document.getElementById('a3').value);
-            let a4 = parseInt(document.getElementById('a4').value);
+            let a0 = document.getElementById('a0').value ? parseInt(document.getElementById('a0').value) : null;
+            let a1 = document.getElementById('a1').value ? parseInt(document.getElementById('a1').value) : null;
+            let a2 = document.getElementById('a2').value ? parseInt(document.getElementById('a2').value) : null;
+            let a3 = document.getElementById('a3').value ? parseInt(document.getElementById('a3').value) : null;
+            let a4 = document.getElementById('a4').value ? parseInt(document.getElementById('a4').value) : null;
 
-            // 入力が数字でない場合
-            if (isNaN(a0) || isNaN(a1) || isNaN(a2) || isNaN(a3) || isNaN(a4)) {
-                alert("すべての入力に数字を入力してください！");
+            // 必要な入力が不足している場合、その部分に候補を表示
+            let missingInputs = [];
+            if (a0 === null) missingInputs.push('a0');
+            if (a1 === null) missingInputs.push('a1');
+            if (a2 === null) missingInputs.push('a2');
+            if (a3 === null) missingInputs.push('a3');
+            if (a4 === null) missingInputs.push('a4');
+
+            if (missingInputs.length > 0) {
+                displayResults('入力が不足しています: ' + missingInputs.join(', ') + 'の値を入力してください。');
                 return;
             }
 
+            let results = [];
+
             // 0から255までのiに対して計算
             for (let i = 0; i < 255; i++) {
-                if (h(i, 0) === a0 && h(i, 1) === a1 && h(i, 2) === a2 && h(i, 3) === a3 && h(i, 4) === a4) {
-                    document.getElementById('result').textContent = i;
-                    return; // 結果が見つかったら終了
+                if ((a0 === null || h(i, 0) === a0) &&
+                    (a1 === null || h(i, 1) === a1) &&
+                    (a2 === null || h(i, 2) === a2) &&
+                    (a3 === null || h(i, 3) === a3) &&
+                    (a4 === null || h(i, 4) === a4)) {
+                    results.push(i);
                 }
             }
 
-            // 結果が見つからなかった場合
-            document.getElementById('result').textContent = '結果が見つかりませんでした。';
+            if (results.length > 0) {
+                displayResults('候補値: ' + results.join(', '));
+            } else {
+                displayResults('条件を満たす値が見つかりませんでした。');
+            }
+        }
+
+        // 結果を表示する関数
+        function displayResults(message) {
+            document.getElementById('result').textContent = message;
         }
     </script>
 </body>
