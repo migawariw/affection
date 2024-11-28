@@ -38,26 +38,29 @@
     </style>
 </head>
 <body>
-    <h1>計算ツール</h1>
+    <h1>なかよし度計算ツール</h1>
+
+
+
     <div class="input-group">
-        <label for="a0">a0:</label>
-        <input type="text" id="a0" placeholder="入力 a0">
+        <label for="a0">0. なかよしきのみの上限個数:</label>
+        <input type="text" id="a0" placeholder="入力">
     </div>
     <div class="input-group">
-        <label for="a1">a1:</label>
-        <input type="text" id="a1" placeholder="入力 a1">
+        <label for="a1">1. ポイントアップ1個時点の個数:</label>
+        <input type="text" id="a1" placeholder="入力">
     </div>
     <div class="input-group">
-        <label for="a2">a2:</label>
-        <input type="text" id="a2" placeholder="入力 a2">
+        <label for="a2">2. ポイントアップ2個時点の個数:</label>
+        <input type="text" id="a2" placeholder="入力">
     </div>
     <div class="input-group">
-        <label for="a3">a3:</label>
-        <input type="text" id="a3" placeholder="入力 a3">
+        <label for="a3">3. ポイントアップ3個時点の個数:</label>
+        <input type="text" id="a3" placeholder="入力">
     </div>
     <div class="input-group">
-        <label for="a4">a4:</label>
-        <input type="text" id="a4" placeholder="入力 a4">
+        <label for="a4">4. ポイントアップ4個時点の個数:</label>
+        <input type="text" id="a4" placeholder="入力">
     </div>
     <button onclick="calculate()">計算</button>
 
@@ -150,5 +153,39 @@
             }
         }
     </script>
+<h2>このツールは？</h2>
+
+<p>
+    ポケモンに与えられる「なかよしきのみ」の個数の上限を使ってなかよし度を計算するものです。具体的には、与えられる「なかよしきのみ」の種類（ザロクのみ、ネコブのみ、タポルのみ、ロメのみ、ウブのみ、マトマのみ）を元に、なかよし度を計算します。
+</p>
+
+<h2>個数の上限とは？</h2>
+
+<p>
+    「なかよしきのみ」を1つ選んでポケモンに使うと、なかよし度が254以下の場合に使える個数が決まります。このとき、十字キーの左または上ボタンを押すと、使える個数の最大値が表示されます。この最大値が「個数の上限」です。
+</p>
+
+<h2>ツールの使い方</h2>
+
+<p><strong>注意</strong>: 以下の作業の前に、手動でレポートを準備しておくことをお勧めします。オートレポートでは正確な結果が得られない可能性があります。また、作業中にポケモンが128歩以上歩くと、なかよし度が上がってしまうことがあるので、移動を避けるようにしましょう。</p>
+
+<h3>手順</h3>
+<ol>
+    <li><strong>ポケモンを選択する</strong><br>なかよし度を知りたいポケモンを手持ちに入れてください。</li>
+
+    <li><strong>「なかよしきのみの上限個数」を入力する</strong><br>そのポケモンに与えられる「なかよしきのみ」の上限個数を入力します（初期状態の上限値）。</li>
+
+    <li><strong>ポイントアップを使う</strong><br>次に、ポイントアップ（栄養ドリンクやポイントマックスでも可）を1つ使います。もし4つの技のPPがすでに最大の場合は、SV内で覚え直せる技を忘れさせてからポイントアップを使用してください。</li>
+
+    <li><strong>「ポイントアップ1個時点の個数」を入力する</strong><br>ポイントアップを使用後、選んだ「なかよしきのみ」の個数を確認し、その値を「1. ポイントアップ1個時点の個数」に入力してください。</li>
+
+    <li><strong>繰り返し入力</strong><br>同様の手順で、ポイントアップを使ってきのみの上限個数をさらに3回入力します。これにより、なかよし度を1つに絞り込むことができます。</li>
+</ol>
+
+<h3>注意点</h3>
+
+<ul>
+    <li><strong>全ての欄に入力しなくても計算可能</strong><br>全ての項目に入力しなくても、「計算」ボタンを押さなくても、なかよし度の候補が自動で表示されます。</li>
+</ul>
 </body>
 </html>
