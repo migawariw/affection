@@ -28,6 +28,10 @@
     <input type="number" id="a4">
     <br><br>
 
+    <label for="a5">a5:</label>
+    <input type="number" id="a5">
+    <br><br>
+
     <button onclick="performCalculation()">計算</button>
     <h2>結果:</h2>
     <div id="result"></div>
@@ -78,20 +82,22 @@
 
         // 入力値を元に計算を行い、結果を表示
         function performCalculation() {
-            // 入力値を取得
+            // 入力値を取得、未入力の場合はnull
             let a0 = document.getElementById('a0').value ? parseInt(document.getElementById('a0').value) : null;
             let a1 = document.getElementById('a1').value ? parseInt(document.getElementById('a1').value) : null;
             let a2 = document.getElementById('a2').value ? parseInt(document.getElementById('a2').value) : null;
             let a3 = document.getElementById('a3').value ? parseInt(document.getElementById('a3').value) : null;
             let a4 = document.getElementById('a4').value ? parseInt(document.getElementById('a4').value) : null;
+            let a5 = document.getElementById('a5').value ? parseInt(document.getElementById('a5').value) : null;
 
-            // 必要な入力が不足している場合、その部分に候補を表示
+            // 入力されていない項目をリストに追加
             let missingInputs = [];
             if (a0 === null) missingInputs.push('a0');
             if (a1 === null) missingInputs.push('a1');
             if (a2 === null) missingInputs.push('a2');
             if (a3 === null) missingInputs.push('a3');
             if (a4 === null) missingInputs.push('a4');
+            if (a5 === null) missingInputs.push('a5');
 
             if (missingInputs.length > 0) {
                 displayResults('入力が不足しています: ' + missingInputs.join(', ') + 'の値を入力してください。');
@@ -106,7 +112,8 @@
                     (a1 === null || h(i, 1) === a1) &&
                     (a2 === null || h(i, 2) === a2) &&
                     (a3 === null || h(i, 3) === a3) &&
-                    (a4 === null || h(i, 4) === a4)) {
+                    (a4 === null || h(i, 4) === a4) &&
+                    (a5 === null || h(i, 5) === a5)) {
                     results.push(i);
                 }
             }
