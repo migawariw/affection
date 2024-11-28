@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>足し算ツール</title>
+</head>
+<body>
+    <h1>2つの数字を足し算するツール</h1>
+
+    <label for="num1">1番目の数字:</label>
+    <input type="number" id="num1" required>
+    <br><br>
+
+    <label for="num2">2番目の数字:</label>
+    <input type="number" id="num2" required>
+    <br><br>
+
+    <button onclick="addNumbers()">計算</button>
+    <h2>結果: <span id="result">0</span></h2>
+
+    <script>
+        function addNumbers() {
+            // 入力された値を取得
+            let num1 = parseFloat(document.getElementById('num1').value);
+            let num2 = parseFloat(document.getElementById('num2').value);
+            
+            // 入力が数字でない場合は警告
+            if (isNaN(num1) || isNaN(num2)) {
+                alert("数字を入力してください！");
+                return;
+            }
+
+            // 足し算を実行
+            let sum = num1 + num2;
+
+            // 結果を表示
+            document.getElementById('result').textContent = sum;
+        }
+    </script>
+</body>
+</html>
