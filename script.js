@@ -1,130 +1,103 @@
-/* 全体のフォント設定 */
-body {
-    font-family: 'Noto Sans JP', 'Arial', sans-serif;
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #4d4d4d;
-    margin: 0;
-    padding: 20px;
+function n1(x) {
+	if (x <= 99) {
+			return Math.ceil((100 - x) / 10);
+	} else {
+			return 0;
+	}
 }
 
-
-/* 見出しスタイル */
-h1, h2, h3,h4,h5,h6 {
-    font-family: 'Noto Sans JP', sans-serif; /* ゴシック体 */
-	font-weight: 400; /* 細めのスタイル */
-    margin-bottom: 15px;
-    /* text-align: center; */
+function n2(x) {
+	if (x <= 159) {
+			return Math.ceil((160 - 10 * n1(x) - x) / 5);
+	} else {
+			return 0;
+	}
 }
 
-h1 {
-    font-size: 2.5em;
+function n3(x) {
+	return 255 - 10 * n1(x) - 5 * n2(x) - x;
 }
 
-h2 {
-    font-size: 2em;
+function n(x) {
+	return n1(x) + n2(x) + n3(x);
 }
 
-h3 {
-    font-size: 1.5em;
+function g(x) {
+	if (x >= 160) {
+			return 0;
+	} else if (x >= 100) {
+			return 2;
+	} else {
+			return 4;
+	}
 }
 
-/* 数字のフォント */
-body, input, button, table, #result {
-    font-feature-settings: "tnum"; /* 固定幅数字（タブラー数字）を有効化 */
-    font-family: 'Roboto', 'Arial', sans-serif; /* 数字には見やすいフォント */
+function nakayoshi(i, x) {
+	if (x == 0) {
+			return i;
+	} else {
+			return nakayoshi(i + g(i), x - 1);
+	}
 }
 
-/* 入力フィールド */
-input, button {
-    font-size: 1em;
-    padding: 10px;
-    margin: 5px 0;
-    border: 2px solid #ffdab9; /* 柔らかいピーチ系カラー */
-    border-radius: 10px; /* 丸みをつける */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 軽い影をつける */
+function h(i, x) {
+	return n(nakayoshi(i, x));
 }
 
-input:focus, button:focus {
-    outline: none; /* フォーカス時の青枠を消す */
-    border-color: #ffb6c1; /* フォーカス時にピンク色 */
+// クリアボタン用の関数
+function clearFields() {
+	document.getElementById('a0').value = '';
+	document.getElementById('a1').value = '';
+	document.getElementById('a2').value = '';
+	document.getElementById('a3').value = '';
+	document.getElementById('a4').value = '';
+	document.getElementById('result').innerHTML = ''; // 結果もクリア
 }
 
-/* ボタン */
-button {
-    background-color: #ffb6c1; /* 優しいピンク */
-    color: #fff;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+function calculate() {
+	const a0 = parseInt(document.getElementById('a0').value);
+	const a1 = parseInt(document.getElementById('a1').value);
+	const a2 = parseInt(document.getElementById('a2').value);
+	const a3 = parseInt(document.getElementById('a3').value);
+	const a4 = parseInt(document.getElementById('a4').value);
 
-button:hover {
-    background-color: #ff69b4; /* 濃いピンク */
-}
+	const isNull = (value) => value === '' || isNaN(value);
+	const conditions = [a0, a1, a2, a3, a4];
+	const conditionsToCheck = conditions.map((value) => isNull(value) ? null : value);
 
-/* テーブル */
-table {
-    font-size: 0.95rem;
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: #fffaf0;
-    border-radius: 10px;
-    overflow: hidden;
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-}
-/* スマホ対応 */
-/* @media (max-width: 600px) {
-    body {
-        font-size: 0.9rem;
-    }
-    table {
-        font-size: 1rem;
-    }
-    button, input {
-        padding: 8px;
-    }
-    .button-container {
-        gap: 5px;
-    }
-} */
+	let result = [];
 
-th, td {
-    padding: 10px;
-    border: 1px solid #ffdab9; /* ピーチカラーの枠線 */
-    /* text-align: center; */
-}
+	for (let i = 0; i < 256; i++) {
+			let match = true;
+			for (let j = 0; j < conditionsToCheck.length; j++) {
+					if (conditionsToCheck[j] !== null && h(i, j) !== conditionsToCheck[j]) {
+							match = false;
+							break;
+					}
+			}
+			if (match) {
+					result.push(i);
+			}
+	}
 
-th {
-    background-color: #ffdab9; /* テーブルヘッダーの背景色 */
-    color: #4d4d4d;
-    font-weight: bold;
-}
+	let tableHTML = '<table border="1"><tr><th>なかよし度（きのみの上限）</th>';
+	for (let x = 1; x <= 4; x++) {
+			tableHTML += `<th>${x}個のとき</th>`;
+	}
+	tableHTML += '</tr>';
 
-/* リンク */
-a {
-    color: #ff69b4; /* 優しいピンク */
-    text-decoration: none;
-}
+	if (result.length > 0) {
+			result.forEach((i) => {
+					tableHTML += `<tr><td>${i}（${h(i,0)}）</td>`;
+					for (let x = 1; x <= 4; x++) {
+							tableHTML += `<td>${nakayoshi(i, x)}（${h(i,x)}）</td>`;
+					}
+					tableHTML += '</tr>';
+			});
+	} else {
+			tableHTML += '<tr><td colspan="6">一致する値はありません。</td></tr>';
+	}
+	tableHTML += '</table>';
 
-a:hover {
-    text-decoration: underline;
-}
-
-/* 結果のエリア */
-#result {
-    margin-top: 20px;
-    padding: 10px;
-    border-radius: 10px;
-    background-color: #fff0f5; /* 柔らかいピンク */
-    color: #4d4d4d;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 軽い影 */
-}
-/* ボタンを横並びに */
-.button-container {
-    display: flex;
-    gap: 10px; /* ボタン間に少しスペース */
+	document.getElementById('result').innerHTML = tableHTML;
 }
